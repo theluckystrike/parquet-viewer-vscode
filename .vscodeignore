@@ -1,0 +1,15 @@
+**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+!THIRD-PARTY-NOTICES.txt
+!icon.png
+!dist/extension.js
+!dist/worker.js
+!dist/webview.js
+!media/**
+!walkthrough/**
+!images/screenshot.png
+!images/schema.png
+!images/hostile-truncated.png

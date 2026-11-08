@@ -1,0 +1,222 @@
+{
+  "name": "zovo-parquet-viewer",
+  "displayName": "Parquet Grid Viewer: Large File Explorer, Schema & Nested Data (Zovo)",
+  "description": "Free, no Python, no sign-in, works offline. Opens Parquet files as a fast grid: only the footer and the rows on screen are read, so large files open at once. Exact DECIMAL and INT64 values, INT96 timestamps, nested LIST, MAP and STRUCT, every codec (Snappy, Gzip, Zstd, Brotli, LZ4). Filter, sort, search, copy as CSV, JSON or Markdown, export to CSV.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#16222E",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Data Science",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "parquet",
+    "parquet viewer",
+    "parquet file",
+    "parquet explorer",
+    "parquet schema",
+    "apache parquet",
+    "parq",
+    "large parquet",
+    "pyarrow",
+    "pandas",
+    "spark",
+    "duckdb",
+    "polars",
+    "arrow",
+    "data viewer",
+    "dataframe",
+    "decimal",
+    "int96",
+    "snappy",
+    "zstd",
+    "data engineering",
+    "no python",
+    "offline"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "parquetViewer.grid",
+        "displayName": "Parquet Grid Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.parquet"
+          },
+          {
+            "filenamePattern": "*.parq"
+          },
+          {
+            "filenamePattern": "*.pq"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "parquetViewer.openWith",
+        "title": "Open in Parquet Grid Viewer",
+        "category": "Parquet Grid Viewer",
+        "icon": "$(table)"
+      },
+      {
+        "command": "parquetViewer.openWalkthrough",
+        "title": "Get Started",
+        "category": "Parquet Grid Viewer"
+      },
+      {
+        "command": "parquetViewer.supportDeveloper",
+        "title": "Support the developer",
+        "category": "Parquet Grid Viewer"
+      },
+      {
+        "command": "parquetViewer.moreViewers",
+        "title": "More free viewers",
+        "category": "Parquet Grid Viewer"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "parquetViewer.openWith",
+          "when": "resourceExtname =~ /^\\.(parquet|parq|pq)$/i",
+          "group": "navigation@20"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Parquet Grid Viewer",
+      "properties": {
+        "parquetViewer.maxSortRows": {
+          "type": "number",
+          "default": 2000000,
+          "minimum": 1000,
+          "description": "Sort at most this many rows. Sorting keeps one column of the matching rows in memory. Filter first to sort part of a bigger file."
+        },
+        "parquetViewer.maxMatches": {
+          "type": "number",
+          "default": 5000000,
+          "minimum": 1000,
+          "description": "Filters and the search box stop after this many matching rows, and a note says so."
+        },
+        "parquetViewer.maxCopyRows": {
+          "type": "number",
+          "default": 100000,
+          "minimum": 1,
+          "description": "Copy at most this many rows to the clipboard at once. Export has no limit."
+        },
+        "parquetViewer.maxFooterMB": {
+          "type": "number",
+          "default": 256,
+          "minimum": 1,
+          "description": "Files whose metadata (footer) is larger than this show a message instead of loading."
+        },
+        "parquetViewer.maxChunkMB": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 16,
+          "description": "Row groups with a single column chunk larger than this show a message instead of loading, so a damaged file can't use all your memory."
+        },
+        "parquetViewer.maxVirtualFileMB": {
+          "type": "number",
+          "default": 512,
+          "minimum": 1,
+          "description": "Files on remote or virtual file systems (not a local disk) are read whole. Larger ones show a message."
+        },
+        "parquetViewer.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for a Marketplace rating after 2 files opened without an error, at least 4 hours apart. \"Later\" asks one more time after 7 days, \"No thanks\" never asks again. It never asks after an error or more than 2 times. Nothing is sent anywhere."
+        },
+        "parquetViewer.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free viewers and Sponsor links at the right end of the status bar under the grid. The change shows in files you open next. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "parquetViewer.start",
+        "title": "Get started with Parquet Grid Viewer",
+        "description": "Open Parquet files as a grid. No Python, no setup, nothing to sign in to.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a Parquet file",
+            "description": "Click any .parquet, .parq or .pq file. It opens as a grid. Only the footer and the rows on screen are read, so large files are never read whole.\n[Find a Parquet file](command:workbench.action.quickOpen?%5B%22.parquet%22%5D)",
+            "media": {
+              "markdown": "walkthrough/open.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.quickOpen",
+              "onCommand:parquetViewer.openWith"
+            ]
+          },
+          {
+            "id": "explore",
+            "title": "Filter, sort and search",
+            "description": "Click a header to sort. Type in the box under a header to filter (>100, 5..9, =exact, !not, null, /regex/). The search box looks in every column. Click a nested cell to see it as a tree.",
+            "media": {
+              "image": "images/screenshot.png",
+              "altText": "A Parquet file open as a grid in VS Code, with column types in the headers and a filter under each one."
+            }
+          },
+          {
+            "id": "schema",
+            "title": "Read the schema and copy rows",
+            "description": "The Schema tab shows every column type, the row groups, the compression and the key-value metadata, with Copy schema as JSON. Select cells and use Copy for CSV, JSON or a Markdown table, or Export to save all rows as CSV.\n[Open settings](command:workbench.action.openSettings?%5B%22parquetViewer%22%5D)",
+            "media": {
+              "markdown": "walkthrough/schema.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.openSettings"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js --production",
+    "test": "node scripts/build.js --production && node --test \"test/*.test.js\"",
+    "package": "npm run build && npx -y @vscode/vsce package --no-dependencies -o dist/"
+  },
+  "devDependencies": {
+    "@types/vscode": "~1.90.0",
+    "esbuild": "0.28.2",
+    "hyparquet": "1.32.0",
+    "hyparquet-compressors": "1.1.3",
+    "hyparquet-writer": "0.18.0"
+  },
+  "homepage": "https://github.com/theluckystrike/parquet-viewer-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/parquet-viewer-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/parquet-viewer-vscode"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
+  }
+}
