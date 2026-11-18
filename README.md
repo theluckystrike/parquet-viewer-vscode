@@ -18,6 +18,13 @@ What you can do with the rows:
 ![A cut-off Parquet file: the viewer says the end of the file is missing and how to fix it](images/hostile-truncated.png)
 - Dark, light and high-contrast themes follow VS Code.
 
+## Teams and companies
+
+- Zovo Pro Team is the company licence: USD 59 once for a team of 5, one key, the Pro tools in every Zovo extension that has them. [See Zovo Pro Team](https://license.zovo.one/buy/zovo-pro-team?client_reference_id=readme-parquet)
+- Commercial use is allowed.
+- The key is checked on your computer, so it works offline. No account and no subscription.
+- Invoice with your company name and tax ID on request: support@zovo.one.
+
 ## How to use it
 
 1. Click a Parquet file in the Explorer. It opens in the grid. (Right-click a file and pick Open in Parquet Grid Viewer if another editor is the default.)
